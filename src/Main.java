@@ -21,7 +21,7 @@ public class Main {
 
   /**
    * Driver class. Read movies from a CSV file, convert them into Movie objects, and then add them
-   * to a LinkedList. The list is order chronologically.
+   * to a LinkedList. The list can be ordered by year, title, and director.
    *
    * @param args command line arguments (unused)
    */
@@ -42,23 +42,30 @@ public class Main {
           continue;
         }
         // Turn Movie String into Movie object and add to the LinkedList in the right location.
-        insertInOrder(turnStringIntoMovie(movieString), movieList);
+        movieList.add(turnStringIntoMovie(movieString));
       }
     } catch (IOException e) {
       LOGGER.log(Level.SEVERE, "Error reading file " + filePath, e);
     }
 
-    // Print the list of movies.
+    // Print the list of movies in the order of the file.
     System.out.println("List of movies:");
     for (Movie movie : movieList) {
       System.out.println(movie.toString());
     }
 
+    // Print the list of movies sorted by year, then title, and then director.
+    // We're using the compareTo method from the Movie interface.
+    System.out.println("\nList of movies sorted by year, then title, and then director:");
+    movieList.stream().sorted().forEach(System.out::println);
+
     // Print the list of movies made in 1994
     System.out.println("\nList of movies made in 1994:");
-    movieList.stream()
-        .filter(movie -> movie.getYear() == 1994)
-        .forEach(System.out::println);
+    movieList.stream().filter(movie -> movie.getYear() == 1994).forEach(System.out::println);
+
+    // Print the movie titles
+    System.out.println("\nList of movie titles:");
+    movieList.stream().map(Movie::getTitle).forEach(System.out::println);
   }
 
   /**
@@ -88,20 +95,4 @@ public class Main {
     return new MovieImpl(movieInfoArray[0], new Person(firstName, lastName.toString()), year);
   }
 
-  /**
-   * Insert a Movie object into a list of Movie objects in chronological order.
-   *
-   * @param movie     a Movie object
-   * @param movieList a list of Movie objects
-   */
-  private static void insertInOrder(Movie movie, List<Movie> movieList) {
-    for (int index = 0; index < movieList.size(); index++) {
-      if (movie.compareTo(movieList.get(index)) < 0) {
-        movieList.add(index, movie);
-        return; // Return after inserting the movie in the correct position
-      }
-    }
-    // If the movie wasn't inserted in the loop, it means it should be placed at the end of the list
-    movieList.add(movie);
-  }
 }
