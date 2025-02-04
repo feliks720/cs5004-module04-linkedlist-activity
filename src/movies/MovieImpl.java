@@ -23,22 +23,45 @@ public class MovieImpl implements Movie {
   }
 
   @Override public String getTitle() {
-    return null;
+    return title;
   }
 
   @Override public Person getDirector() {
-    return null;
+    return director;
   }
 
   @Override public int getYear() {
-    return 0;
+    return year;
   }
-
+  /**
+   * Returns a string representation of the movie.
+   * e.g. "The Apartment (Billy Wilder, 1960)"
+   *      "La Dolce Vita (Federico Fellini, 1960)"
+   *      "Dr. Strangelove (Stanley Kubrick, 1964)"
+   * @return a string representation of the movie
+   */
   @Override public String toString() {
-    return null;
+    return this.getTitle() + " (" + this.getDirector() + ", " + this.getYear() + ")";
   }
 
+  /**
+   * Compares this movie with the specified movie for order. Returns a negative integer, zero, or a
+   * compare the movie by year
+   * if the years are the same, compare the movie by title
+   * if the titles are the same, compare the movie by director
+   * positive integer as this movie is less than, equal to, or greater than the specified movie.
+   *
+   * @param o the movie to be compared
+   * @return a negative integer, zero, or a positive integer as this movie is less than, equal to,
+   * or greater than the specified movie
+   */
   @Override public int compareTo(Movie o) {
-    return 0;
+    if (this.getYear() == o.getYear()) {
+      if (this.getTitle().equalsIgnoreCase(o.getTitle())) {
+        return this.getDirector().compareTo(o.getDirector());
+      }
+      return this.getTitle().compareToIgnoreCase(o.getTitle());
+    }
+    return this.getYear() - o.getYear();
   }
 }

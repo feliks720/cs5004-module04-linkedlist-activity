@@ -55,6 +55,7 @@ public class MovieImplTest {
    * Test toString method.
    */
   @Test public void testToString() {
+
     assertEquals("The Apartment (Billy Wilder, 1960)", this.theApartment.toString());
     assertEquals("La Dolce Vita (Federico Fellini, 1960)", this.laDolceVita.toString());
     assertEquals("Dr. Strangelove (Stanley Kubrick, 1964)", this.drStrangeLove.toString());
